@@ -2,27 +2,27 @@
 
 namespace EF_Core_Demo.Models;
 
-public class Company
+public class Employee
 {
     [Key]
+    public int EmployeeId { get; set; }
+
     public int CompanyId { get; set; }
 
     [MaxLength(100)]
     public string Name { get; set; }
 
     [MaxLength(100)]
-    public string Address { get; set; }
+    public string Email { get; set; }
 
     [MaxLength(100)]
-    public string City { get; set; }
+    public string Phone { get; set; }
 
     [MaxLength(100)]
-    public string State { get; set; }
-
-    [MaxLength(100)]
-    public string PostalCode { get; set; }
+    public string Title { get; set; }
 
     #region relations
-    public List<Employee> Employees { get; set; }
+    public virtual Company Company { get; set; }
+
     #endregion
 }
