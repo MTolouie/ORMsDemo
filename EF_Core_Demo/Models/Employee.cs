@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EF_Core_Demo.Models;
 
@@ -22,7 +23,7 @@ public class Employee
     public string Title { get; set; }
 
     #region relations
-    public virtual Company Company { get; set; }
+    public virtual Company? Company { get; set; }
 
     #endregion
 }

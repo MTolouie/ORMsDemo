@@ -13,29 +13,30 @@ namespace EF_Core_Demo.Controllers
 {
     public class CompaniesController : Controller
     {
-        private readonly ICompanyRepository _companyRepositoryEf;
+        private readonly ICompanyRepository _companyRepository;
 
-        public CompaniesController(ICompanyRepository companyRepositoryEf)
+        public CompaniesController(ICompanyRepository companyRepository)
         {
-            _companyRepositoryEf = companyRepositoryEf;
+            _companyRepository = companyRepository;
         }
 
         // GET: Companies
         public async Task<IActionResult> Index()
         {
-            var companies = _companyRepositoryEf.GetAll();
+            var companies = _companyRepository.GetAll();
             return View(companies);
         }
 
-        // GET: Companies/Details/5
-        public async Task<IActionResult> Details(int? id)
+
+
+        public IActionResult Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-            var company = _companyRepositoryEf.Find(id.Value);
-            
+
+            var company = _companyRepository.Find(id.GetValueOrDefault());
             if (company == null)
             {
                 return NotFound();
@@ -43,6 +44,8 @@ namespace EF_Core_Demo.Controllers
 
             return View(company);
         }
+
+
 
         // GET: Companies/Create
         public IActionResult Create()
@@ -59,7 +62,7 @@ namespace EF_Core_Demo.Controllers
         {
             if (ModelState.IsValid)
             {
-                _companyRepositoryEf.Add(company);
+                _companyRepository.Add(company);
                 return RedirectToAction(nameof(Index));
             }
             return View(company);
@@ -72,7 +75,7 @@ namespace EF_Core_Demo.Controllers
             {
                 return NotFound();
             }
-            var company = _companyRepositoryEf.Find(id.Value);
+            var company = _companyRepository.Find(id.Value);
 
             if (company == null)
             {
@@ -98,7 +101,7 @@ namespace EF_Core_Demo.Controllers
             {
                 try
                 {
-                    _companyRepositoryEf.Update(company);
+                    _companyRepository.Update(company);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -123,7 +126,7 @@ namespace EF_Core_Demo.Controllers
             {
                 return NotFound();
             }
-            var company = _companyRepositoryEf.Find(id.Value);
+            var company = _companyRepository.Find(id.Value);
 
             if (company == null)
             {
@@ -139,10 +142,10 @@ namespace EF_Core_Demo.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
 
-            var company = _companyRepositoryEf.Find(id);
+            var company = _companyRepository.Find(id);
             if (company != null)
             {
-                _companyRepositoryEf.Remove(id);
+                _companyRepository.Remove(id);
             }
             
             return RedirectToAction(nameof(Index));
@@ -150,7 +153,7 @@ namespace EF_Core_Demo.Controllers
 
         private bool CompanyExists(int id)
         {
-            var company = _companyRepositoryEf.Find(id);
+            var company = _companyRepository.Find(id);
 
             if (company is not null)
                 return true;

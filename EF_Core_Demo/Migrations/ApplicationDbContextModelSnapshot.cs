@@ -56,7 +56,7 @@ namespace EFCoreDemo.Migrations
 
                     b.HasKey("CompanyId");
 
-                    b.ToTable("Companies");
+                    b.ToTable("Companies", (string)null);
                 });
 
             modelBuilder.Entity("EF_Core_Demo.Models.Employee", b =>
@@ -94,7 +94,7 @@ namespace EFCoreDemo.Migrations
 
                     b.HasIndex("CompanyId");
 
-                    b.ToTable("Employees");
+                    b.ToTable("Employees", (string)null);
                 });
 
             modelBuilder.Entity("EF_Core_Demo.Models.Employee", b =>
