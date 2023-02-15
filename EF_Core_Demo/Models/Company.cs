@@ -1,11 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using Dapper.Contrib.Extensions;
+using System.ComponentModel.DataAnnotations;
 
 namespace EF_Core_Demo.Models;
 
+[Dapper.Contrib.Extensions.Table("Companies")]
 public class Company
 {
-    [Key]
+    [Dapper.Contrib.Extensions.Key]
     public int CompanyId { get; set; }
 
     [MaxLength(100)]
@@ -24,6 +25,7 @@ public class Company
     public string PostalCode { get; set; }
 
     #region relations
+    [Write(false)]
     public List<Employee>? Employees { get; set; }
     #endregion
 }
