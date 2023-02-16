@@ -15,15 +15,18 @@ namespace EF_Core_Demo.Controllers
     {
         private readonly ICompanyRepository _companyRepository;
         private readonly IEmployeeRepository _employeeRepository;
+        private readonly IBonusRepository _bonusRepository;
 
-        public EmployeesController(ICompanyRepository companyRepository, IEmployeeRepository employeeRepository)
+        public EmployeesController(ICompanyRepository companyRepository, IEmployeeRepository employeeRepository, IBonusRepository bonusRepository)
         {
             _companyRepository = companyRepository;
             _employeeRepository = employeeRepository;
+            _bonusRepository = bonusRepository;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int companyId = 0)
         {
-            var employees = _employeeRepository.GetAll();
+            var employees = _bonusRepository.GetEmployeesWithCompany(companyId);
+
             return View(employees);
         }
 
