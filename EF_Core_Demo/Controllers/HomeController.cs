@@ -1,4 +1,5 @@
 ﻿using EF_Core_Demo.Models;
+using EF_Core_Demo.Repository;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -6,16 +7,17 @@ namespace EF_Core_Demo.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IBonusRepository _bonusRepository;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IBonusRepository bonusRepository)
         {
-            _logger = logger;
+            _bonusRepository = bonusRepository;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var companies = _bonusRepository.GetAllCompaniesWithEmployees();
+            return View(companies);
         }
 
         public IActionResult Privacy()

@@ -6,6 +6,12 @@ namespace EF_Core_Demo.Models;
 [Dapper.Contrib.Extensions.Table("Companies")]
 public class Company
 {
+
+    public Company()
+    {
+        Employees = new();
+    }
+
     [Dapper.Contrib.Extensions.Key]
     public int CompanyId { get; set; }
 

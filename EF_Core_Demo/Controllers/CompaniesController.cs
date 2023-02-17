@@ -14,10 +14,14 @@ namespace EF_Core_Demo.Controllers
     public class CompaniesController : Controller
     {
         private readonly ICompanyRepository _companyRepository;
+        private readonly IEmployeeRepository _employeeRepository;
+        private readonly IBonusRepository _bonusRepository;
 
-        public CompaniesController(ICompanyRepository companyRepository)
+        public CompaniesController(ICompanyRepository companyRepository,IEmployeeRepository employeeRepository,IBonusRepository bonusRepository)
         {
             _companyRepository = companyRepository;
+            _employeeRepository = employeeRepository;
+            _bonusRepository = bonusRepository;
         }
 
         // GET: Companies
@@ -36,7 +40,7 @@ namespace EF_Core_Demo.Controllers
                 return NotFound();
             }
 
-            var company = _companyRepository.Find(id.GetValueOrDefault());
+            var company = _bonusRepository.GetCompanyWithEmployees(id.Value);
             if (company == null)
             {
                 return NotFound();
