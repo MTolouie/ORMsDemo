@@ -20,9 +20,44 @@ namespace EF_Core_Demo.Controllers
             return View(companies);
         }
 
-        public IActionResult Privacy()
+        public IActionResult AddTestRecords()
         {
-            return View();
+            Company company = new Company()
+            {
+                Name = "Test" + Guid.NewGuid().ToString(),
+                Address = "test address",
+                City = "test city",
+                PostalCode = "test postalCode",
+                State = "test state",
+                Employees = new List<Employee>()
+            };
+
+            company.Employees.Add(new Employee()
+            {
+                Email = "test Email",
+                Name = "Test Name " + Guid.NewGuid().ToString(),
+                Phone = " test phone",
+                Title = "Test Manager"
+            });
+
+            company.Employees.Add(new Employee()
+            {
+                Email = "test Email 2",
+                Name = "Test Name 2" + Guid.NewGuid().ToString(),
+                Phone = " test phone 2",
+                Title = "Test Manager 2"
+            });
+
+            _bonusRepository.AddCompanyWithEmployeesWithTransaction(company);
+            return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult RemoveTestRecords()
+        {
+            int[] companyIds = _bonusRepository.FIlterCompaniesByName("Test").Select(s=>s.CompanyId).ToArray();
+            _bonusRepository.RemoveRange(companyIds);
+
+            return RedirectToAction(nameof(Index));
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
