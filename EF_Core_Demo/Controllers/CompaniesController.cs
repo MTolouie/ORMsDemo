@@ -16,18 +16,20 @@ namespace EF_Core_Demo.Controllers
         private readonly ICompanyRepository _companyRepository;
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IBonusRepository _bonusRepository;
+        private readonly IDapperSprocRepository _dapperSprocRepository;
 
-        public CompaniesController(ICompanyRepository companyRepository,IEmployeeRepository employeeRepository,IBonusRepository bonusRepository)
+        public CompaniesController(ICompanyRepository companyRepository,IEmployeeRepository employeeRepository,IBonusRepository bonusRepository,IDapperSprocRepository dapperSprocRepository)
         {
             _companyRepository = companyRepository;
             _employeeRepository = employeeRepository;
             _bonusRepository = bonusRepository;
+            _dapperSprocRepository = dapperSprocRepository;
         }
 
         // GET: Companies
         public async Task<IActionResult> Index()
         {
-            var companies = _companyRepository.GetAll();
+            var companies = _dapperSprocRepository.List<Company>("usp_GetALLCompany");
             return View(companies);
         }
 
@@ -40,7 +42,7 @@ namespace EF_Core_Demo.Controllers
                 return NotFound();
             }
 
-            var company = _bonusRepository.GetCompanyWithEmployees(id.Value);
+            var company = _bonusRepository.GetCompanyWithEmployees(id.GetValueOrDefault());
             if (company == null)
             {
                 return NotFound();
@@ -79,7 +81,7 @@ namespace EF_Core_Demo.Controllers
             {
                 return NotFound();
             }
-            var company = _companyRepository.Find(id.Value);
+            var company = _dapperSprocRepository.Single<Company>("usp_GetCompany", new { CompanyId = id });
 
             if (company == null)
             {
